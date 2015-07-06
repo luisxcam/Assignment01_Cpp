@@ -434,7 +434,7 @@ void arrayOrganizer(){
 			}
 
 			//If the last value was checked and no errors, add to the vector
-			if (x + 1 == userInput.length()){
+			if (x + 1 == userInput.length() && number!=NULL){
 				list.push_back(number);
 				number = NULL;
 			}
@@ -445,13 +445,6 @@ void arrayOrganizer(){
 			listNotCompleted = false;
 
 	} while (listNotCompleted);//Checking that the user did the list
-
-	/*cout << "Original list" << endl;
-	//Display result of your madness
-	for (int x = 0; x < list.size(); x++){
-	cout << list[x] << " ";
-	}
-	cout << endl;*/
 
 	//Fill the organized array
 	do{
@@ -488,8 +481,8 @@ void arrayOrganizer(){
 
 	} while (list.size() != 0);//do
 
-	cout << "The biggest number you can get with those number is :" << endl;
 	//Display result of your madness
+	cout << "The biggest number you can get with those number is :" << endl;
 	for (int x = 0; x < organizedList.size(); x++){
 		cout << organizedList[x] << " ";
 	}
