@@ -204,9 +204,42 @@ display the results in a formatted table.All outputted fractions must be in lowe
 numbers if possible.
 ******************************/
 void calculations(int numerator, int denominator, int numerator2, int denominator2){
-	//Display results
+	//variables
+	int numeratorCarrier, denominatorCarrier, limitGCF, gcf;
+	
+	//Table header
 	cout << "Calculations table:" << endl;
-	cout << "Your fractions are " << numerator << "/" << denominator << " " << numerator2 << "/" << denominator2 << endl;
+
+	//ADDITION + + + ADDITION + + + ADDITION + + + ADDITION + + + ADDITION + + + 
+	//Proceed with addition
+	numeratorCarrier = (numerator*denominator2) + (numerator2*denominator);
+	denominatorCarrier = denominator * denominator2;
+
+	//Start GCF
+	gcf = 1;
+
+	//Start decreasing fraction
+	do{
+		//Find the GCF limit
+		if (numeratorCarrier > denominatorCarrier)
+			limitGCF = denominatorCarrier;
+		else
+			limitGCF = numeratorCarrier;
+
+		//Find all values
+		for (int x = 1; x <= limitGCF; x++){
+			if (numeratorCarrier%x == 0 && denominatorCarrier%x == 0)
+				gcf = x;
+		}
+
+		//Decrease value
+		numeratorCarrier /= gcf;
+		denominatorCarrier /= gcf;
+	} while (gcf != 1);
+
+	//Display result
+	cout << "Addition: \t\t" << numeratorCarrier << "/" << denominatorCarrier << endl;
+
 }//calculations
 
 /******************************
