@@ -13,7 +13,7 @@ using namespace std;
 
 //prototypes
 void fractionCalculator();
-void calculations(int, int);
+void calculations(int, int, int, int);
 void gradingSchema();
 void arrayOrganizer();
 
@@ -61,123 +61,140 @@ int main(){
 /******************************
 Fraction calculator: You will start by prompting the user for two fractions in the main. The
 inputs should be two strings in the form #/#. You must account for both positive and negative
-numerators. Therefor -#/# is also a valid input. 
+numerators. Therefor -#/# is also a valid input.
 ******************************/
 void fractionCalculator(){
 	//variables
 	string userInput;
 	string allowedChar = "0123456789/-";
-	bool divisorFound, stringNotAllowed, numeratorIsNegative, denominatorIsNegative, negativeFound;
+	bool divisorFound, stringNotAllowed, numeratorIsNegative, denominatorIsNegative, negativeFound, valuesCaptured = false;
 	const char DIVISOR = '/', NEGATIVE = '-';
-	int numerator, denominator;
+	int numerator, denominator, firstNumerator = 0, firstDenominator = 0;
 
-	//Loop until the user uses the proper string
+	//Tell user how is this going down
+	cout << "Welcome to the Fraction Calculator:" << endl << "We'll ask you to input two (2) fractions, while the format of these is incorrect or the values are not allowed we'll continue asking until the proper data is inserted" << endl;
+
+	//Start asking for both fraction
 	do{
-		//Promp to use
-		cout << "Please insert a fraction in the following format ##/##" << endl;
+		//Loop until the user uses the proper string
+		do{
+			//Promp to use
+			cout << "Please insert a fraction in the following format ##/##" << endl;
 
-		//Grab the user input
-		cin >> userInput;
+			//Grab the user input
+			cin >> userInput;
 
-		//Restart all variables
-		divisorFound = false;
-		numerator = 0;
-		denominator = 0;
-		numeratorIsNegative = false;
-		denominatorIsNegative = false;
-		negativeFound = false;
+			//Restart all variables
+			divisorFound = false;
+			numerator = 0;
+			denominator = 0;
+			numeratorIsNegative = false;
+			denominatorIsNegative = false;
+			negativeFound = false;
 
-		//Check the string for correct formating
-		for (int x = 0; x < userInput.length(); x++){
-			//Get ready for next check
-			stringNotAllowed = true;
-
-			//Compare the string
-			for (int y = 0; y < allowedChar.length(); y++){
-				//Compare that the values of the string match those of the allowed ones
-				if (userInput[x] == allowedChar[y]){
-					//check for divisor
-					if (userInput[x] == DIVISOR && divisorFound == false){
-						stringNotAllowed = false;
-						divisorFound = true;
-						negativeFound = false;
-					}//if
-					//if the divisor was found but there's another one, that's not cool yo
-					else if (userInput[x] == DIVISOR && divisorFound == true){
-						cout << "More than one divisor (/) symbol was found. ";
-						break;
-					}//else if
-					//Symbol for negative value was found, checking conditions
-					else if (userInput[x] == NEGATIVE && negativeFound == false){
-						stringNotAllowed = false;
-						negativeFound = true;
-						//Check if it was the denominator or numerator
-						if (divisorFound)
-							denominatorIsNegative = true;
-						else
-							numeratorIsNegative = true;
-					}//else if
-					else if (userInput[x] == NEGATIVE && negativeFound == true){
-						cout << "More than one negative (-) symbol found for the same number. ";
-						break;
-					}
-					//The char is allowed, and is not the divisor, cool beans!
-					else{
-						//String is ok so far
-						stringNotAllowed = false;
-						
-						//Calculating the numerator
-						if (!divisorFound){
-							numerator = (numerator * 10) + (userInput[x]-'0');
-						}//if
-						//Calculating denominator
-						else{
-							denominator = (denominator * 10) + (userInput[x] - '0');
-						}//else
-					}
-				}//if
-			}//for Y
-
-			//Found a problem with the string, get out of the loop
-			if (stringNotAllowed){
-				break;
-			}
-		}//for X
-
-		//Changing the value for the numerator and/or denominator
-		if (numeratorIsNegative){
-			numerator *= -1;
-		}
-
-		if (denominatorIsNegative){
-			denominator *= -1;
-		}
-
-		//Checking if the input passed the string checking
-		if (!stringNotAllowed){
-			//if is not on division form
-			if (!divisorFound){
+			//Check the string for correct formating
+			for (int x = 0; x < userInput.length(); x++){
+				//Get ready for next check
 				stringNotAllowed = true;
-				cout << "Values were correct, but the divisor (/) was not found. Please try again" << endl;
-			}//if
-			else//The divisor was found, checking that the denom is not zero
-			{
-				//if the denominator is equal to zero
-				if (denominator == 0){
+
+				//Compare the string
+				for (int y = 0; y < allowedChar.length(); y++){
+					//Compare that the values of the string match those of the allowed ones
+					if (userInput[x] == allowedChar[y]){
+						//check for divisor
+						if (userInput[x] == DIVISOR && divisorFound == false){
+							stringNotAllowed = false;
+							divisorFound = true;
+							negativeFound = false;
+						}//if
+						//if the divisor was found but there's another one, that's not cool yo
+						else if (userInput[x] == DIVISOR && divisorFound == true){
+							cout << "More than one divisor (/) symbol was found. ";
+							break;
+						}//else if
+						//Symbol for negative value was found, checking conditions
+						else if (userInput[x] == NEGATIVE && negativeFound == false){
+							stringNotAllowed = false;
+							negativeFound = true;
+							//Check if it was the denominator or numerator
+							if (divisorFound)
+								denominatorIsNegative = true;
+							else
+								numeratorIsNegative = true;
+						}//else if
+						else if (userInput[x] == NEGATIVE && negativeFound == true){
+							cout << "More than one negative (-) symbol found for the same number. ";
+							break;
+						}
+						//The char is allowed, and is not the divisor, cool beans!
+						else{
+							//String is ok so far
+							stringNotAllowed = false;
+
+							//Calculating the numerator
+							if (!divisorFound){
+								numerator = (numerator * 10) + (userInput[x] - '0');
+							}//if
+							//Calculating denominator
+							else{
+								denominator = (denominator * 10) + (userInput[x] - '0');
+							}//else
+						}
+					}//if
+				}//for Y
+
+				//Found a problem with the string, get out of the loop
+				if (stringNotAllowed){
+					break;
+				}
+			}//for X
+
+			//Changing the value for the numerator and/or denominator
+			if (numeratorIsNegative){
+				numerator *= -1;
+			}
+
+			if (denominatorIsNegative){
+				denominator *= -1;
+			}
+
+			//Checking if the input passed the string checking
+			if (!stringNotAllowed){
+				//if is not on division form
+				if (!divisorFound){
 					stringNotAllowed = true;
-					cout << "Cannot perfom division by zero. Why? Ask SIRI. Please try again" << endl;
+					cout << "Values were correct, but the divisor (/) was not found. Please try again" << endl;
 				}//if
+				else//The divisor was found, checking that the denom is not zero
+				{
+					//if the denominator is equal to zero
+					if (denominator == 0){
+						stringNotAllowed = true;
+						cout << "Cannot perfom division by zero. Why? Ask SIRI. Please try again" << endl;
+					}//if
+				}//else
+
+			}//if
+			else{
+				cout << "The String you entered is invalid. Please try again." << endl;
 			}//else
-			
-		}//if
-		else{
-			cout << "The String you entered is invalid. Please try again." << endl;
-		}//else
-	} while(stringNotAllowed);//checks that the string is ok
+		} while (stringNotAllowed);//checks that the string is ok
+
+		//Both fractions captured
+		if (firstDenominator != 0 && denominator != 0)
+			valuesCaptured = true;
+
+		//First fraction captured
+		if (firstDenominator == 0){
+			firstNumerator = numerator;
+			firstDenominator = denominator;
+		}
+
+	} while (!valuesCaptured);
 
 	//Perform calculations
-	calculations(numerator, denominator);
-	
+	calculations(firstNumerator, firstDenominator, numerator, denominator);
+
 }//fractionCalculator
 
 /******************************
@@ -186,10 +203,10 @@ calculate the following.Addition, Subtraction, Multiplication and Division of th
 display the results in a formatted table.All outputted fractions must be in lowest terms or whole
 numbers if possible.
 ******************************/
-void calculations(int numerator, int denominator){
+void calculations(int numerator, int denominator, int numerator2, int denominator2){
 	//Display results
 	cout << "Calculations table:" << endl;
-	cout << "Addition: \t\t" << (numerator + denominator) << endl << "Subtraction: \t\t" << (numerator - denominator) << endl << "Multiplication: \t" << (numerator * denominator) << endl << "Division: \t\t" << (int)((float)numerator / (float)denominator) << endl;
+	cout << "Your fractions are " << numerator << "/" << denominator << " " << numerator2 << "/" << denominator2 << endl;
 }//calculations
 
 /******************************
