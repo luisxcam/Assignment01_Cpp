@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <string>
 #include <cmath>
+#include <vector>
 
 //namespace
 using namespace std;
@@ -46,6 +47,9 @@ int main(){
 		switch (option){
 		case 1:
 			fractionCalculator();
+			break;
+		case 3:
+			arrayOrganizer();
 			break;
 		default:
 			cout << "Option invalid please try again." << endl << endl;
@@ -156,7 +160,7 @@ void fractionCalculator(){
 			}
 
 			if (denominatorIsNegative){
-				denominator *= -1;
+				numerator *= -1;
 			}
 
 			//Checking if the input passed the string checking
@@ -358,5 +362,94 @@ the largest formed number is 95021. You may assume that you will not receive mor
 You must use vectors throughout the program without any uses of arrays.
 ******************************/
 void arrayOrganizer(){
-	cout << "Array Organizer" << endl;
+	//variables
+	vector<int> list, organizedList;
+	string userInput;
+	string allowedChar = "0123456789,";
+	const char COMMA = ',';
+	int number = NULL;
+	bool listNotCompleted, valueNotAllowed;
+	int index = 0, maxIndex;
+
+	//Welcome message
+	cout << "Welcome to the Array Organizer." << endl;
+
+	//Start gathering the values
+	do{
+		//Asume is wrong
+		listNotCompleted = true;
+
+		//Ask user
+		cout << "Please insert a list of numerical values separated by commas" << endl;
+
+		//Grab value
+		cin >> userInput;
+
+		//Check the format of the string
+		for (int x = 0; x < userInput.length(); x++){
+			//Asume the value being entered is not allowed
+			valueNotAllowed = true;
+
+			//Check with the list of allowed values
+			for (int y = 0; y < allowedChar.length();y++){
+				if (userInput[x] == allowedChar[y]){
+					
+					//Check if it was a blank space or not
+					if (userInput[x] == COMMA){
+						if (number != NULL){
+							list.push_back(number);
+							number = NULL;
+						}
+					}//if
+					else{
+						//First start the carrier
+						if (number == NULL)
+							number = 0;
+
+						//Proceed to build the number
+						number = (number * 10) + (userInput[x] - '0');
+
+						//Check that the number is only 2 digits long
+						if (number >= 100){
+							cout << "The value entered is greater than 2 digits long." << endl;
+							number = NULL;
+							break;
+						}
+					}//else
+
+					//Value is Ok!
+					valueNotAllowed = false;
+				}//if
+			}//for y
+
+			//if a value wasn't allowed restart the operation
+			if (valueNotAllowed){
+				cout << "Value not allowed. Please try again" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				break;
+			}
+
+			//If the last value was checked and no errors, add to the vector
+			if (x + 1 == userInput.length()){
+				list.push_back(number);
+				number = NULL;
+			}
+		}//for x
+
+		//The list was ok
+		if (!valueNotAllowed)
+			listNotCompleted = false;
+
+	} while (listNotCompleted);//Checking that the user did the list
+
+	//Start Sorting
+	do{
+		list.erase(list.begin() + index);
+		//control the values to check and reset the value of the index if required
+		maxIndex = list.size();
+		if (++index > maxIndex)
+			index = 0;
+	} while (list.size != 0);
+
 }//arrayOrganizer
