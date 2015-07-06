@@ -7,6 +7,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cmath>
 
 //namespace
 using namespace std;
@@ -221,10 +222,10 @@ void calculations(int numerator, int denominator, int numerator2, int denominato
 	//Start decreasing fraction
 	do{
 		//Find the GCF limit
-		if (numeratorCarrier > denominatorCarrier)
-			limitGCF = denominatorCarrier;
+		if (abs(numeratorCarrier) > abs(denominatorCarrier))
+			limitGCF = abs(denominatorCarrier);
 		else
-			limitGCF = numeratorCarrier;
+			limitGCF = abs(numeratorCarrier);
 
 		//Find all values
 		for (int x = 1; x <= limitGCF; x++){
@@ -238,7 +239,97 @@ void calculations(int numerator, int denominator, int numerator2, int denominato
 	} while (gcf != 1);
 
 	//Display result
-	cout << "Addition: \t\t" << numeratorCarrier << "/" << denominatorCarrier << endl;
+	cout << setfill(' ') << setw(18) << left << "Addition" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+
+	//SUBTRACTION - - - SUBTRACTION - - - SUBTRACTION - - - SUBTRACTION - - - 
+	//Proceed with addition
+	numeratorCarrier = (numerator*denominator2) - (numerator2*denominator);
+	denominatorCarrier = denominator * denominator2;
+
+	//Start GCF
+	gcf = 1;
+
+	//Start decreasing fraction
+	do{
+		//Find the GCF limit
+		if (abs(numeratorCarrier) > abs(denominatorCarrier))
+			limitGCF = abs(denominatorCarrier);
+		else
+			limitGCF = abs(numeratorCarrier);
+
+		//Find all values
+		for (int x = 1; x <= limitGCF; x++){
+			if (numeratorCarrier%x == 0 && denominatorCarrier%x == 0)
+				gcf = x;
+		}
+
+		//Decrease value
+		numeratorCarrier /= gcf;
+		denominatorCarrier /= gcf;
+	} while (gcf != 1);
+
+	//Display result
+	cout << setfill(' ') << setw(18) << left << "Subtraction" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+
+	//MULTIPLICATION * * * MULTIPLICATION * * * MULTIPLICATION * * * MULTIPLICATION * * * 
+	//Proceed with addition
+	numeratorCarrier = numerator * numerator2;
+	denominatorCarrier = denominator * denominator2;
+
+	//Start GCF
+	gcf = 1;
+
+	//Start decreasing fraction
+	do{
+		//Find the GCF limit
+		if (abs(numeratorCarrier) > abs(denominatorCarrier))
+			limitGCF = abs(denominatorCarrier);
+		else
+			limitGCF = abs(numeratorCarrier);
+
+		//Find all values
+		for (int x = 1; x <= limitGCF; x++){
+			if (numeratorCarrier%x == 0 && denominatorCarrier%x == 0)
+				gcf = x;
+		}
+
+		//Decrease value
+		numeratorCarrier /= gcf;
+		denominatorCarrier /= gcf;
+	} while (gcf != 1);
+
+	//Display result
+	cout << setfill(' ') << setw(18) << left << "Multiplication" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+
+	//DIVISION / / / DIVISION / / / DIVISION / / / DIVISION / / / 
+	//Proceed with addition
+	numeratorCarrier = numerator * denominator2;
+	denominatorCarrier = denominator * numerator2;
+
+	//Start GCF
+	gcf = 1;
+
+	//Start decreasing fraction
+	do{
+		//Find the GCF limit
+		if (abs(numeratorCarrier) > abs(denominatorCarrier))
+			limitGCF = abs(denominatorCarrier);
+		else
+			limitGCF = abs(numeratorCarrier);
+
+		//Find all values
+		for (int x = 1; x <= limitGCF; x++){
+			if (numeratorCarrier%x == 0 && denominatorCarrier%x == 0)
+				gcf = x;
+		}
+
+		//Decrease value
+		numeratorCarrier /= gcf;
+		denominatorCarrier /= gcf;
+	} while (gcf != 1);
+
+	//Display result
+	cout << setfill(' ') << setw(18) << left << "Division" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
 
 }//calculations
 
