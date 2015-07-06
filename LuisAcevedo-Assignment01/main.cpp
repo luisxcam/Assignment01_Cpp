@@ -446,12 +446,12 @@ void arrayOrganizer(){
 
 	} while (listNotCompleted);//Checking that the user did the list
 
-	cout << "Original list" << endl;
+	/*cout << "Original list" << endl;
 	//Display result of your madness
 	for (int x = 0; x < list.size(); x++){
-		cout << list[x] << " ";
+	cout << list[x] << " ";
 	}
-	cout << endl;
+	cout << endl;*/
 
 	//Fill the organized array
 	do{
@@ -470,10 +470,12 @@ void arrayOrganizer(){
 			}
 			//List is single and Max is double
 			else if (list[x] <= 9 && list[maxIndex] > 9 && list[x] >= list[maxIndex] / 10){
-				maxIndex = x;
+				if (list[x] >= list[maxIndex] % 10)
+					maxIndex = x;
 			}
 			//List is double and Max is single
-			else if (list[x] > 9 && list[maxIndex] <= 9 && list[x] / 10 > list[maxIndex]){
+			else if (list[x] > 9 && list[maxIndex] <= 9 && list[x] / 10 >= list[maxIndex]){
+				if (list[x] % 10 > list[maxIndex])
 				maxIndex = x;
 			}
 		}//for
@@ -486,7 +488,7 @@ void arrayOrganizer(){
 
 	} while (list.size() != 0);//do
 
-	cout << "Organized list" << endl;
+	cout << "The biggest number you can get with those number is :" << endl;
 	//Display result of your madness
 	for (int x = 0; x < organizedList.size(); x++){
 		cout << organizedList[x] << " ";
