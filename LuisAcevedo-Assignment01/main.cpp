@@ -41,7 +41,10 @@ int main(){
 		cout << "1)Fraction Calculator" << endl << "2)Grading Schema" << endl << "3)Array Organizer" << endl;
 
 		//Grab option picked
-		cin >> option;
+		//cin >> option; UN-COMMENT ME
+
+		//DELETE ME
+		option = 3;
 
 		//Go to selected menu
 		switch (option){
@@ -211,7 +214,7 @@ numbers if possible.
 void calculations(int numerator, int denominator, int numerator2, int denominator2){
 	//variables
 	int numeratorCarrier, denominatorCarrier, limitGCF, gcf;
-	
+
 	//Table header
 	cout << "Calculations table:" << endl;
 
@@ -369,7 +372,7 @@ void arrayOrganizer(){
 	const char COMMA = ',';
 	int number = NULL;
 	bool listNotCompleted, valueNotAllowed;
-	int index = 0, maxIndex;
+	int maxIndex;
 
 	//Welcome message
 	cout << "Welcome to the Array Organizer." << endl;
@@ -391,9 +394,9 @@ void arrayOrganizer(){
 			valueNotAllowed = true;
 
 			//Check with the list of allowed values
-			for (int y = 0; y < allowedChar.length();y++){
+			for (int y = 0; y < allowedChar.length(); y++){
 				if (userInput[x] == allowedChar[y]){
-					
+
 					//Check if it was a blank space or not
 					if (userInput[x] == COMMA){
 						if (number != NULL){
@@ -426,7 +429,7 @@ void arrayOrganizer(){
 			if (valueNotAllowed){
 				cout << "Value not allowed. Please try again" << endl;
 				cin.clear();
-				cin.ignore(256,'\n');
+				cin.ignore(256, '\n');
 				break;
 			}
 
@@ -443,13 +446,51 @@ void arrayOrganizer(){
 
 	} while (listNotCompleted);//Checking that the user did the list
 
-	//Start Sorting
+	cout << "Original list" << endl;
+	//Display result of your madness
+	for (int x = 0; x < list.size(); x++){
+		cout << list[x] << " ";
+	}
+	cout << endl;
+
+	//Fill the organized array
 	do{
-		list.erase(list.begin() + index);
-		//control the values to check and reset the value of the index if required
-		maxIndex = list.size();
-		if (++index > maxIndex)
-			index = 0;
-	} while (list.size != 0);
+		//Restart for next value
+		maxIndex = 0;
+
+		//Iterate through the vector
+		for (int x = 0; x < list.size(); x++){
+			//Both are double digits
+			if (list[x] > 9 && list[maxIndex] > 9 && list[x] > list[maxIndex]){
+				maxIndex = x;
+			}
+			//Both are single digits
+			else if (list[x] <= 9 && list[maxIndex] <= 9 && list[x] > list[maxIndex]){
+				maxIndex = x;
+			}
+			//List is single and Max is double
+			else if (list[x] <= 9 && list[maxIndex] > 9 && list[x] >= list[maxIndex] / 10){
+				maxIndex = x;
+			}
+			//List is double and Max is single
+			else if (list[x] > 9 && list[maxIndex] <= 9 && list[x] / 10 > list[maxIndex]){
+				maxIndex = x;
+			}
+		}//for
+
+		//Add to other vector
+		organizedList.push_back(list[maxIndex]);
+
+		//Delete the value used
+		list.erase(list.begin() + maxIndex);
+
+	} while (list.size() != 0);//do
+
+	cout << "Organized list" << endl;
+	//Display result of your madness
+	for (int x = 0; x < organizedList.size(); x++){
+		cout << organizedList[x] << " ";
+	}
+	cout << endl;
 
 }//arrayOrganizer
