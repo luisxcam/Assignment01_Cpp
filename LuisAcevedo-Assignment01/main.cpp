@@ -259,7 +259,12 @@ void calculations(int numerator, int denominator, int numerator2, int denominato
 	} while (gcf != 1);
 
 	//Display result
-	cout << setfill(' ') << setw(18) << left << "Addition" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	if(numeratorCarrier%denominatorCarrier==0){
+		cout << setfill(' ') << setw(18) << left << "Addition" << left << numeratorCarrier/denominatorCarrier << endl;
+	}else{
+		cout << setfill(' ') << setw(18) << left << "Addition" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	}
+
 
 	//SUBTRACTION - - - SUBTRACTION - - - SUBTRACTION - - - SUBTRACTION - - - 
 	//Proceed with addition
@@ -289,7 +294,11 @@ void calculations(int numerator, int denominator, int numerator2, int denominato
 	} while (gcf != 1);
 
 	//Display result
-	cout << setfill(' ') << setw(18) << left << "Subtraction" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	if(numeratorCarrier%denominatorCarrier==0){
+		cout << setfill(' ') << setw(18) << left << "Subtraction" << left << numeratorCarrier/denominatorCarrier << endl;
+	}else{
+		cout << setfill(' ') << setw(18) << left << "Subtraction" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	}
 
 	//MULTIPLICATION * * * MULTIPLICATION * * * MULTIPLICATION * * * MULTIPLICATION * * * 
 	//Proceed with addition
@@ -319,7 +328,11 @@ void calculations(int numerator, int denominator, int numerator2, int denominato
 	} while (gcf != 1);
 
 	//Display result
-	cout << setfill(' ') << setw(18) << left << "Multiplication" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	if(numeratorCarrier%denominatorCarrier==0){
+		cout << setfill(' ') << setw(18) << left << "Multiplication" << left << numeratorCarrier/denominatorCarrier << endl;
+	}else{
+		cout << setfill(' ') << setw(18) << left << "Multiplication" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	}
 
 	//DIVISION / / / DIVISION / / / DIVISION / / / DIVISION / / / 
 	//Proceed with addition
@@ -349,7 +362,11 @@ void calculations(int numerator, int denominator, int numerator2, int denominato
 	} while (gcf != 1);
 
 	//Display result
-	cout << setfill(' ') << setw(18) << left << "Division" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	if(numeratorCarrier%denominatorCarrier==0){
+		cout << setfill(' ') << setw(18) << left << "Division" << left << numeratorCarrier/denominatorCarrier << endl;
+	}else{
+		cout << setfill(' ') << setw(18) << left << "Division" << left << numeratorCarrier << "/" << denominatorCarrier << endl;
+	}
 
 }//calculations
 
