@@ -9,15 +9,28 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <fstream>
 
 //namespace
 using namespace std;
+
+//Structs
+struct Student{
+	string name;
+	vector<int> grades;
+	float gradeAverage;
+	char gradeLetter;
+};
 
 //prototypes
 void fractionCalculator();
 void calculations(int, int, int, int);
 void gradingSchema();
 void arrayOrganizer();
+void calculateAverage(Student&);
+char calculateGrade(Student);
+void calculateTestAvg(vector<Student>, float&, int, vector<float>&);
+void printGrades(vector<Student>, vector<float>, float);
 
 //Main
 int main(){
@@ -26,7 +39,7 @@ int main(){
 	bool jobNotDone;
 
 	//Configuration of cout
-	cout << setprecision(2) << fixed;
+	cout << setprecision(1) << fixed;
 
 	//Welcome message
 	cout << "Welcome to Assignment01" << endl;
@@ -41,15 +54,15 @@ int main(){
 		cout << "1)Fraction Calculator" << endl << "2)Grading Schema" << endl << "3)Array Organizer" << endl;
 
 		//Grab option picked
-		//cin >> option; UN-COMMENT ME
-
-		//DELETE ME
-		option = 3;
+		cin >> option;
 
 		//Go to selected menu
 		switch (option){
 		case 1:
 			fractionCalculator();
+			break;
+		case 2:
+			gradingSchema();
 			break;
 		case 3:
 			arrayOrganizer();
@@ -347,16 +360,151 @@ The first two values in the file will represent the number of students followed 
 The program should then compute the average test score for each student and assign the appropriate
 grade (A, B, C, D, E or F) as well as the average of each test. Your program must perform the following
 functions.
-a) A void function calculateAverage, to determine the average of the test scores for each student.
-b) A value-returning function, calculateGrade, to determine and return each student’s grade letter.
+a) A void function calculateAverage, to determine the average of the test scores for each student.[x]
+b) A value-returning function, calculateGrade, to determine and return each student’s grade letter.[x]
 c) A void function calculateTestAvg that calculates the average of all tests and overall average of
 students.
 d) A void function printGrades that prints the grades values, average marks and grade letter
 followed by the average of all tests and students.
 ******************************/
 void gradingSchema(){
-	cout << "Grading Schema thingy" << endl;
+	//variables
+	ifstream file;
+	string fileInput;
+	int numberOfStudents, numberOfTest;
+	vector<Student> studentList;
+	Student studentCarrier;
+	vector<float> gradesAverage;
+	float totalGradeAverage;
+
+	//Open the file
+	file.open("../grades.txt");
+
+	//grab the amount of students and the amount of test
+	file >> fileInput;
+	numberOfStudents = stoi(fileInput);
+	file >> fileInput;
+	numberOfTest = stoi(fileInput);
+
+	//Read the data
+	for (int x = 0; x < numberOfStudents; x++){
+		//Grab the name
+		file >> studentCarrier.name;
+
+		//Grab the grades
+		for (int y = 0; y < numberOfTest; y++){
+			file >> fileInput;
+			studentCarrier.grades.push_back(stoi(fileInput));
+		}//for
+
+		//Add to the main array
+		studentList.push_back(studentCarrier);
+
+		//Clean the grade vector
+		studentCarrier.grades.clear();
+
+		//Calculate the averages
+		calculateAverage(studentList[x]);
+
+		//Get the letters
+		studentList[x].gradeLetter = calculateGrade(studentList[x]);
+	}//for
+
+	//Calculate tests average
+	calculateTestAvg(studentList, totalGradeAverage, numberOfTest, gradesAverage);
+
+	//Print the table
+	printGrades(studentList,gradesAverage,totalGradeAverage);
 }//gradingSchema
+
+void calculateAverage(Student& student){
+	//variables
+	int gradeCarrier = 0;
+
+	//Get the total
+	for (int x = 0; x < student.grades.size(); x++){
+		gradeCarrier += student.grades[x];
+	}//for
+
+	//Calculate average
+	student.gradeAverage = (float)gradeCarrier / student.grades.size();
+}//calculateAverage
+
+char calculateGrade(Student student){
+	//Check the range
+	if (student.gradeAverage < 60.0)
+		return 'F';
+	else if (student.gradeAverage >= 60.0 && student.gradeAverage < 70.0)
+		return 'D';
+	else if (student.gradeAverage >= 70.0 && student.gradeAverage < 80.0)
+		return 'C';
+	else if (student.gradeAverage >= 80.0 && student.gradeAverage < 90.0)
+		return 'B';
+	else if (student.gradeAverage >= 90.0)
+		return 'A';
+
+	return NULL;
+}//calculateGrade
+
+void calculateTestAvg(vector<Student> students, float& totalGradeAverage, int amountOfGrades, vector<float>& gradesAverage){
+	//variables
+	int gradeCarrier = 0;
+
+	//Go through each test
+	for (int x = 0; x < amountOfGrades; x++){
+		//Go through each student
+		for (int y = 0; y < students.size(); y++){
+			gradeCarrier += students[y].grades[x];
+		}//for
+
+		//Calculate and store
+		gradesAverage.push_back((float)gradeCarrier/students.size());
+
+		//Clean
+		gradeCarrier = 0;
+	}//for
+
+	//Start variable
+	totalGradeAverage = 0.0;
+
+	//Calculate the total average
+	for (int x = 0; x < gradesAverage.size(); x++){
+		totalGradeAverage += (float)gradesAverage[x];
+	}
+	totalGradeAverage /= (float) gradesAverage.size();
+}//calculateTestAvg
+
+void printGrades(vector<Student> students, vector<float> gradesAverage, float totalGradesAverage){
+	//Print header
+	cout << setfill(' ') << setw(10) << right << "Name" << setw(10) << right << "test1" << setw(10) << right << "test2" << setw(10) << right << "test3" << setw(10) << right << "test4" << setw(10) << right << "test5" << setw(10) << right << "AVG" << setw(10) << right << "Grade" << endl << endl;	 
+
+	//Print values
+	
+	for (int x = 0; x < students.size(); x++){
+		//Name
+		cout << setfill(' ') << setw(10) << right << students[x].name;
+
+		//Grades
+		for (int y = 0; y < students[x].grades.size(); y++){
+			cout << setw(10) << right << students[x].grades[y];
+		}
+
+		//Grade Avg
+		cout << setw(10) << right << students[x].gradeAverage;
+
+		//Grade Letter
+		cout << setw(10) << right << students[x].gradeLetter;
+	}//for
+
+	//Print averages
+	cout << setfill(' ') << setw(10) << right << "test avg";
+	for (int x = 0; x < gradesAverage.size(); x++)
+		cout << setw(10) << right << gradesAverage[x];
+
+	//Print the total average
+	cout << setw(10) << right << totalGradesAverage;
+	cout << endl;
+}//printGrades
 
 /******************************
 Write a function that given a list of non-negative integers in the range of 1-99 from the
@@ -434,7 +582,7 @@ void arrayOrganizer(){
 			}
 
 			//If the last value was checked and no errors, add to the vector
-			if (x + 1 == userInput.length() && number!=NULL){
+			if (x + 1 == userInput.length() && number != NULL){
 				list.push_back(number);
 				number = NULL;
 			}
@@ -469,7 +617,7 @@ void arrayOrganizer(){
 			//List is double and Max is single
 			else if (list[x] > 9 && list[maxIndex] <= 9 && list[x] / 10 >= list[maxIndex]){
 				if (list[x] % 10 > list[maxIndex])
-				maxIndex = x;
+					maxIndex = x;
 			}
 		}//for
 
